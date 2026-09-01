@@ -1,5 +1,49 @@
 {
-  "sent_ids": [],
-  "new_items": [],
-  "last_run": ""
+  "last_run": "2026-09-01T21:03:41.568038Z",
+  "sent_ids": [
+    301765,
+    301866,
+    301773,
+    301709,
+    301871,
+    301712,
+    301715
+  ],
+  "new_items": [
+    {
+      "AnnonsId": 301715,
+      "Titel": "Fendergatan 4, Södra Hammarbyhamnen",
+      "Länk": "https://bostad.stockholm.se/bostad/202615565/"
+    },
+    {
+      "AnnonsId": 301773,
+      "Titel": "Varvsgatan 33, Södermalm",
+      "Länk": "https://bostad.stockholm.se/bostad/202615581/"
+    },
+    {
+      "AnnonsId": 301871,
+      "Titel": "Ringvägen 64, Södermalm",
+      "Länk": "https://bostad.stockholm.se/bostad/202615748/"
+    },
+    {
+      "AnnonsId": 301866,
+      "Titel": "Bränningevägen 31, Årsta",
+      "Länk": "https://bostad.stockholm.se/bostad/202615749/"
+    },
+    {
+      "AnnonsId": 301709,
+      "Titel": "Fredsborgstorget 6, Liljeholmen",
+      "Länk": "https://bostad.stockholm.se/bostad/202615606/"
+    },
+    {
+      "AnnonsId": 301712,
+      "Titel": "Gröndalsvägen 31, Gröndal",
+      "Länk": "https://bostad.stockholm.se/bostad/202615608/"
+    },
+    {
+      "AnnonsId": 301765,
+      "Titel": "Vävar Johans Gata 21, Södra Hammarbyhamnen",
+      "Länk": "https://bostad.stockholm.se/bostad/202615605/"
+    }
+  ]
 }
