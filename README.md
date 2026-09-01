@@ -1,4 +1,5 @@
 Bostadsbevakning med GitHub Actions + Ntfy
+
 🏡 Översikt
 Det här projektet bevakar nya bostadsannonser från Bostadsförmedlingen i Stockholm och skickar automatiska push‑notiser till mobilen via Ntfy.
 Scriptet körs en gång per dygn med hjälp av GitHub Actions, filtrerar annonser enligt dina kriterier och lagrar skickade objekt i en JSON‑fil för att undvika dubbletter.
