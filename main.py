@@ -2,6 +2,10 @@ import requests
 import json
 from datetime import datetime
 
+# ---------------------------------------------------------
+# KONFIGURATION
+# ---------------------------------------------------------
+
 API_URL = "https://bostad.stockholm.se/AllaAnnonser/"
 
 ALLOW_TYPES = {"Vanlig", "Hyresradhus", "Familjelagenhet"}
@@ -17,19 +21,36 @@ MIN_RUM = 4
 
 RESULT_FILE = "result.json"
 
-NTFY_TOPIC = "DITT_TOPIC_HÄR"
+# DITT NTFY-TOPIC HÄR (byt ut!)
+NTFY_TOPIC = "bostadsbevakning"
 NTFY_URL = f"https://ntfy.sh/{NTFY_TOPIC}"
 
+
+# ---------------------------------------------------------
+# NTFY-NOTIFIERING
+# ---------------------------------------------------------
+
 def send_ntfy(title, message):
-    requests.post(NTFY_URL, data=f"{title}\n{message}".encode("utf-8"))
+    try:
+        requests.post(NTFY_URL, data=f"{title}\n{message}".encode("utf-8"))
+    except Exception as e:
+        print(f"[NTFY ERROR] {e}")
+
+
+# ---------------------------------------------------------
+# JSON-HANTERING
+# ---------------------------------------------------------
 
 def load_previous_ids():
     try:
         with open(RESULT_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
             return set(data.get("sent_ids", []))
-    except:
+    except FileNotFoundError:
         return set()
+    except json.JSONDecodeError:
+        return set()
+
 
 def save_results(sent_ids, new_items):
     data = {
@@ -40,26 +61,51 @@ def save_results(sent_ids, new_items):
     with open(RESULT_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
+
+# ---------------------------------------------------------
+# HÄMTA & FILTRERA ANNONSER
+# ---------------------------------------------------------
+
 def fetch_listings():
     resp = requests.get(API_URL, headers={"User-Agent": "Mozilla/5.0"})
     resp.raise_for_status()
     return resp.json()
 
+
 def filter_listings(listings):
     matching = []
+
     for item in listings:
+        # Typ
         if not any(item.get(t, False) for t in ALLOW_TYPES):
             continue
+
+        # Kommun
         if item.get("Kommun") != "Stockholm":
             continue
+
+        # Stadsdel
         if item.get("Stadsdel") not in ALLOW_STADSDELAR:
             continue
-        if item.get("Yta", 0) < MIN_YTA:
+
+        # Yta (robust)
+        yta = item.get("Yta")
+        if yta is None or yta < MIN_YTA:
             continue
-        if item.get("AntalRum", 0) < MIN_RUM:
+
+        # Rum (robust)
+        rum = item.get("AntalRum")
+        if rum is None or rum < MIN_RUM:
             continue
+
         matching.append(item)
+
     return matching
+
+
+# ---------------------------------------------------------
+# HUVUDLOGIK
+# ---------------------------------------------------------
 
 def main():
     previous_ids = load_previous_ids()
@@ -75,11 +121,11 @@ def main():
             continue
 
         title = f"{obj.get('Gatuadress', '')}, {obj.get('Stadsdel', '')}"
-        area = obj.get("Kommun")
-        rooms = obj.get("AntalRum")
-        size = obj.get("Yta")
-        rent = obj.get("Hyra")
-        deadline = obj.get("AnnonseradTill")
+        area = obj.get("Kommun", "Okänd kommun")
+        rooms = obj.get("AntalRum", "Okänt antal rum")
+        size = obj.get("Yta", "Okänd yta")
+        rent = obj.get("Hyra", "Okänd hyra")
+        deadline = obj.get("AnnonseradTill", "Okänt datum")
         link = "https://bostad.stockholm.se" + obj.get("Url", "")
 
         message = (
@@ -91,8 +137,8 @@ def main():
         )
 
         send_ntfy(title, message)
-        sent_ids.add(annons_id)
 
+        sent_ids.add(annons_id)
         new_items_summary.append({
             "AnnonsId": annons_id,
             "Titel": title,
@@ -100,6 +146,7 @@ def main():
         })
 
     save_results(sent_ids, new_items_summary)
+
 
 if __name__ == "__main__":
     main()
