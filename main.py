@@ -21,7 +21,7 @@ MIN_RUM = 4
 
 RESULT_FILE = "result.json"
 
-# DITT NTFY-TOPIC HÄR (byt ut!)
+# DITT NTFY-TOPIC HÄR
 NTFY_TOPIC = "bostadsbevakning"
 NTFY_URL = f"https://ntfy.sh/{NTFY_TOPIC}"
 
@@ -104,7 +104,7 @@ def filter_listings(listings):
 
 
 # ---------------------------------------------------------
-# HUVUDLOGIK
+# HUVUDLOGIK + DAGLIG STATUSNOTIS
 # ---------------------------------------------------------
 
 def main():
@@ -114,6 +114,8 @@ def main():
 
     sent_ids = set(previous_ids)
     new_items_summary = []
+
+    new_count = 0
 
     for obj in matching:
         annons_id = obj.get("AnnonsId")
@@ -144,6 +146,16 @@ def main():
             "Titel": title,
             "Länk": link
         })
+
+        new_count += 1
+
+    # ---------------------------------------------------------
+    # DAGLIG STATUSNOTIS
+    # ---------------------------------------------------------
+    if new_count == 0:
+        send_ntfy("Status", "Inga nya objekt idag")
+    else:
+        send_ntfy("Status", f"{new_count} nya objekt hittades idag")
 
     save_results(sent_ids, new_items_summary)
 
