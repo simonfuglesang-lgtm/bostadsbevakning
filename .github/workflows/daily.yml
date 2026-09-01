@@ -2,12 +2,21 @@ name: Daily Housing Check
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # kör 05:00 UTC (07:00 svensk tid vinter)
+    # Sommartid (CEST = UTC+2) → 08:00 svensk tid
+    - cron: "0 6 * * *"
+
+    # Vintertid (CET = UTC+1) → 08:00 svensk tid
+    - cron: "0 7 * * *"
+
+  # Möjlighet att köra manuellt
   workflow_dispatch:
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # krävs för att kunna commit:a result.json
 
     steps:
       - name: Checkout repo
@@ -29,5 +38,5 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add result.json
-          git commit -m "Daily update" || echo "Inga ändringar"
-          git push || echo "Ingen push"
+          git commit -m "Daily update" || echo "Inga ändringar att committa"
+          git push || echo "Ingen push (t.ex. körning i fork)"
