@@ -16,8 +16,8 @@ ALLOW_STADSDELAR = [
     "Gröndal", "Alvik"
 ]
 
-MIN_YTA = 100
-MIN_RUM = 4
+MIN_YTA = 50
+MIN_RUM = 2
 
 RESULT_FILE = "result.json"
 
