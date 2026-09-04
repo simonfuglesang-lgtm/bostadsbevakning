@@ -1,19 +1,8 @@
 {
-  "last_run": "2026-09-03T07:05:32.484919Z",
+  "last_run": "2026-09-04T07:04:52.729896Z",
   "sent_ids": [
     302057,
     302138
   ],
-  "new_items": [
-    {
-      "AnnonsId": 302057,
-      "Titel": "Sandfjärdsgatan 42, Årsta",
-      "Länk": "https://bostad.stockholm.se/bostad/202615837/"
-    },
-    {
-      "AnnonsId": 302138,
-      "Titel": "Båtklubbsgatan 3, Södra Hammarbyhamnen",
-      "Länk": "https://bostad.stockholm.se/bostad/202615948/"
-    }
-  ]
+  "new_items": []
 }
