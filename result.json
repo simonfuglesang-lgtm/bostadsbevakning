@@ -1,15 +1,9 @@
 {
-  "last_run": "2026-10-17T11:16:21.390911Z",
+  "last_run": "2026-10-18T11:53:05.736521Z",
   "sent_ids": [
     302057,
     302138,
     306143
   ],
-  "new_items": [
-    {
-      "AnnonsId": 306143,
-      "Titel": "Ringvägen 64, Södermalm",
-      "Länk": "https://bostad.stockholm.se/bostad/202618571/"
-    }
-  ]
+  "new_items": []
 }
