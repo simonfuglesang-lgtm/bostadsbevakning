@@ -1,16 +1,10 @@
 {
-  "last_run": "2026-10-27T12:51:57.261352Z",
+  "last_run": "2026-10-28T13:40:31.321440Z",
   "sent_ids": [
     302057,
     302138,
     306795,
     306143
   ],
-  "new_items": [
-    {
-      "AnnonsId": 306795,
-      "Titel": "Fendergatan 2, Södra Hammarbyhamnen",
-      "Länk": "https://bostad.stockholm.se/bostad/202618930/"
-    }
-  ]
+  "new_items": []
 }
